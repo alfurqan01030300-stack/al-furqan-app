@@ -1,0 +1,179 @@
+{
+  "entities": {
+    "Student": {
+      "title": "Student",
+      "description": "بيانات طالب تحفيظ القرآن الكريم والتقدم والنجوم والاشتراك",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "اسم الطالب" },
+        "age": { "type": "string", "description": "عمر الطالب" },
+        "phone": { "type": "string", "description": "رقم هاتف الطالب" },
+        "course": { "type": "string", "description": "الكورس أو المستوى القرآني" },
+        "feeStatus": { "type": "string", "enum": ["paid", "unpaid"], "description": "حالة الرسوم" },
+        "notes": { "type": "string", "description": "ملاحظات إضافية" },
+        "parentName": { "type": "string", "description": "اسم ولي الأمر" },
+        "parentPhone": { "type": "string", "description": "رقم واتساب ولي الأمر" },
+        "assignedTeacherId": { "type": "string", "description": "معرف الشيخ أو المعلم المشرف" },
+        "registeredDate": { "type": "string", "description": "تاريخ التسجيل" },
+        "reports": { "type": "array", "description": "سجل تقارير المتابعة اليومية" },
+        "stars": { "type": "number", "description": "عدد النجوم الحالية (0-10)" },
+        "totalStarsEarned": { "type": "number", "description": "إجمالي النجوم المكتسبة" },
+        "starCyclesCompleted": { "type": "number", "description": "عدد دورات 10 نجوم المكتملة" },
+        "completedJuz": { "type": "number", "description": "عدد الأجزاء المحفوظة من القرآن (0-30)" },
+        "currentSurah": { "type": "string", "description": "السورة الحالية" },
+        "subscriptionAmount": { "type": "number", "description": "قيمة الاشتراك الشهري" },
+        "nextPaymentDate": { "type": "string", "description": "ميعاد تجديد الاشتراك القادم" },
+        "lastPaymentDate": { "type": "string", "description": "تاريخ آخر سداد" },
+        "certificates": { "type": "array", "description": "سجل شهادات الإتمام" }
+      },
+      "required": ["name", "course"]
+    },
+    "Teacher": {
+      "title": "Teacher",
+      "description": "بيانات الشيخ أو المعلمة وسعر الحصة",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "اسم المعلم" },
+        "phone": { "type": "string", "description": "رقم هاتف المعلم" },
+        "specialization": { "type": "string", "description": "التخصص القرآني والإجازة" },
+        "notes": { "type": "string", "description": "ملاحظات إضافية" },
+        "sessionRate": { "type": "number", "description": "سعر الحصة لحساب المرتب الشهري" },
+        "createdAt": { "type": "number", "description": "تاريخ الإضافة" }
+      },
+      "required": ["name", "phone", "specialization"]
+    },
+    "ScheduleAppointment": {
+      "title": "ScheduleAppointment",
+      "description": "موعد حلقة قرآنية",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string", "description": "معرف الطالب" },
+        "studentName": { "type": "string", "description": "اسم الطالب" },
+        "teacherId": { "type": "string", "description": "معرف المعلم" },
+        "teacherName": { "type": "string", "description": "اسم المعلم" },
+        "day": { "type": "string", "description": "يوم الحلقة" },
+        "time": { "type": "string", "description": "وقت الحلقة" },
+        "courseType": { "type": "string", "description": "نوع الحلقة" },
+        "sessionUrl": { "type": "string", "description": "رابط الغرفة الافتراضية" },
+        "notes": { "type": "string", "description": "ملاحظات الموعد" }
+      },
+      "required": ["studentName", "teacherName", "day", "time"]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "سجل حضور وغياب الطالب في الحصص",
+      "type": "object",
+      "properties": {
+        "scheduleId": { "type": "string", "description": "معرف الحصة" },
+        "studentId": { "type": "string", "description": "معرف الطالب" },
+        "studentName": { "type": "string", "description": "اسم الطالب" },
+        "teacherId": { "type": "string", "description": "معرف المعلم" },
+        "teacherName": { "type": "string", "description": "اسم المعلم" },
+        "date": { "type": "string", "description": "تاريخ الحصة" },
+        "status": { "type": "string", "enum": ["present", "absent"], "description": "حالة الحضور" },
+        "createdAt": { "type": "number", "description": "توقيت التسجيل" }
+      },
+      "required": ["studentId", "studentName", "date", "status"]
+    },
+    "PaymentRecord": {
+      "title": "PaymentRecord",
+      "description": "سجل إيصالات والمدفوعات الشهرية",
+      "type": "object",
+      "properties": {
+        "receiptNumber": { "type": "string", "description": "رقم الإيصال" },
+        "studentId": { "type": "string", "description": "معرف الطالب" },
+        "studentName": { "type": "string", "description": "اسم الطالب" },
+        "amount": { "type": "number", "description": "المبلغ المدفوع" },
+        "currency": { "type": "string", "description": "العملة" },
+        "date": { "type": "string", "description": "تاريخ الدفع" },
+        "monthKey": { "type": "string", "description": "الشهر بصيغة YYYY-MM" },
+        "notes": { "type": "string", "description": "ملاحظات" },
+        "createdAt": { "type": "number", "description": "توقيت التسجيل" }
+      },
+      "required": ["receiptNumber", "studentId", "studentName", "amount", "date"]
+    },
+    "TeacherRating": {
+      "title": "TeacherRating",
+      "description": "تقييم ولي الأمر للمعلم بعد الحصة",
+      "type": "object",
+      "properties": {
+        "teacherId": { "type": "string", "description": "معرف المعلم" },
+        "teacherName": { "type": "string", "description": "اسم المعلم" },
+        "studentId": { "type": "string", "description": "معرف الطالب" },
+        "studentName": { "type": "string", "description": "اسم الطالب" },
+        "parentPhone": { "type": "string", "description": "هاتف ولي الأمر" },
+        "rating": { "type": "number", "description": "التقييم من 1 إلى 5 نجوم" },
+        "comment": { "type": "string", "description": "تعليق ولي الأمر" },
+        "date": { "type": "string", "description": "التاريخ" },
+        "createdAt": { "type": "number", "description": "توقيت التقييم" }
+      },
+      "required": ["teacherId", "rating"]
+    },
+    "AcademySettings": {
+      "title": "AcademySettings",
+      "description": "إعدادات الأكاديمية والشعار ورقم الإدارة والعملة",
+      "type": "object",
+      "properties": {
+        "academyName": { "type": "string", "description": "اسم الأكاديمية" },
+        "logoDataUrl": { "type": "string", "description": "شعار الأكاديمية" },
+        "managerWhatsApp": { "type": "string", "description": "رقم واتساب مدير الأكاديمية" },
+        "slogan": { "type": "string", "description": "الشعار اللفظي" },
+        "email": { "type": "string", "description": "البريد الإلكتروني" },
+        "address": { "type": "string", "description": "العنوان والمقر" },
+        "currency": { "type": "string", "description": "العملة الافتراضية" },
+        "defaultSessionRate": { "type": "number", "description": "سعر الحصة الافتراضي للمعلم" },
+        "defaultSubscriptionAmount": { "type": "number", "description": "قيمة الاشتراك الافتراضي" }
+      },
+      "required": ["academyName", "managerWhatsApp"]
+    },
+    "TrialLesson": {
+      "title": "TrialLesson",
+      "description": "طلب حصة تجريبية مجانية لطالب جديد",
+      "type": "object",
+      "properties": {
+        "studentName": { "type": "string", "description": "اسم الطالب" },
+        "parentPhone": { "type": "string", "description": "رقم تليفون ولي الأمر" },
+        "stageOrAge": { "type": "string", "description": "المرحلة الدراسية أو السن" },
+        "notes": { "type": "string", "description": "ملاحظات أو رغبات ولي الأمر" },
+        "preferredTime": { "type": "string", "description": "الموعد أو الوقت المفضل" },
+        "status": { "type": "string", "enum": ["new", "contacted", "scheduled", "enrolled", "cancelled"], "description": "حالة متابعة الطلب" },
+        "createdAt": { "type": "number", "description": "توقيت تقديم الطلب" }
+      },
+      "required": ["studentName", "parentPhone", "stageOrAge"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "مجموعة طلاب الأكاديمية الخاصة بحساب المستخدم"
+    },
+    "/users/{userId}/teachers/{teacherId}": {
+      "schema": { "$ref": "#/entities/Teacher" },
+      "description": "مجموعة المعلمين والمشايخ الخاصة بحساب المستخدم"
+    },
+    "/users/{userId}/schedules/{scheduleId}": {
+      "schema": { "$ref": "#/entities/ScheduleAppointment" },
+      "description": "مجموعة مواعيد الحلقات الأسبوعية الخاصة بحساب المستخدم"
+    },
+    "/users/{userId}/attendance/{attendanceId}": {
+      "schema": { "$ref": "#/entities/AttendanceRecord" },
+      "description": "مجموعة سجلات الحضور والغياب الخاصة بحساب المستخدم"
+    },
+    "/users/{userId}/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/PaymentRecord" },
+      "description": "مجموعة سجلات المدفوعات وإيصالات الدفع الخاصة بحساب المستخدم"
+    },
+    "/users/{userId}/teacherRatings/{ratingId}": {
+      "schema": { "$ref": "#/entities/TeacherRating" },
+      "description": "مجموعة تقييمات أولياء الأمور للمعلمين الخاصة بحساب المستخدم"
+    },
+    "/users/{userId}/settings/academy": {
+      "schema": { "$ref": "#/entities/AcademySettings" },
+      "description": "وثيقة إعدادات وهوية الأكاديمية الخاصة بحساب المستخدم"
+    },
+    "/users/{userId}/trialLessons/{lessonId}": {
+      "schema": { "$ref": "#/entities/TrialLesson" },
+      "description": "مجموعة طلبات الحصص التجريبية المجانية الخاصة بحساب المستخدم"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // All academy data is isolated per authenticated Gmail user under /users/{userId}/...
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      match /students/{studentId} {
+        allow list: if isOwner(userId);
+        allow get, create, update, delete: if isOwner(userId) && isValidId(studentId);
+      }
+
+      match /teachers/{teacherId} {
+        allow list: if isOwner(userId);
+        allow get, create, update, delete: if isOwner(userId) && isValidId(teacherId);
+      }
+
+      match /schedules/{scheduleId} {
+        allow list: if isOwner(userId);
+        allow get, create, update, delete: if isOwner(userId) && isValidId(scheduleId);
+      }
+
+      match /attendance/{attendanceId} {
+        allow list: if isOwner(userId);
+        allow get, create, update, delete: if isOwner(userId) && isValidId(attendanceId);
+      }
+
+      match /payments/{paymentId} {
+        allow list: if isOwner(userId);
+        allow get, create, update, delete: if isOwner(userId) && isValidId(paymentId);
+      }
+
+      match /teacherRatings/{ratingId} {
+        allow list: if isOwner(userId);
+        allow get, create, update, delete: if isOwner(userId) && isValidId(ratingId);
+      }
+
+      match /trialLessons/{lessonId} {
+        allow list: if isOwner(userId);
+        allow get, create, update, delete: if isOwner(userId) && isValidId(lessonId);
+      }
+
+      match /settings/{settingId} {
+        allow list: if isOwner(userId);
+        allow get, create, update, delete: if isOwner(userId) && isValidId(settingId);
+      }
+    }
+
+    match /test/{docId} {
+      allow read: if true;
+    }
+  }
+}
