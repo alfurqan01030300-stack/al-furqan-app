@@ -4,7 +4,7 @@
  * or reverts to the gold 'ف' symbol in emerald circle.
  */
 
-export const PUBLISHED_APP_URL = 'https://al-furqan-e11b7.web.app';
+export const PUBLISHED_APP_URL = 'https://al-furqan-app.vercel.app';
 
 export function syncAppIcon(logoDataUrl?: string) {
   try {

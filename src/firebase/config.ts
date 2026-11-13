@@ -19,28 +19,22 @@ import {
 } from 'firebase/auth';
 import firebaseConfig from '../../firebase-applet-config.json';
 
-export const FIREBASE_HOSTING_URL = 'https://al-furqan-e11b7.web.app';
-
-const OFFICIAL_HOSTING_DOMAINS = new Set([
-  'al-furqan-e11b7.web.app',
-  'al-furqan-e11b7.firebaseapp.com',
-]);
+export const OFFICIAL_LIVE_URL = 'https://al-furqan-app.vercel.app';
 
 /**
- * Returns true ONLY when the app is running on the fixed, officially authorized Firebase Hosting domain.
- */
-export function isOfficialHostingDomain(): boolean {
-  if (typeof window === 'undefined') return true;
-  const host = (window.location.hostname || '').toLowerCase();
-  return OFFICIAL_HOSTING_DOMAINS.has(host);
-}
-
-/**
- * Returns true when opened from any preview/dev domain (e.g. ais-dev, ais-pre, run.app, localhost)
- * instead of the official fixed Firebase Hosting domain.
+ * Returns true ONLY when opened from AI Studio temporary preview domains
+ * (ais-dev-* / ais-pre-* / *.run.app / aistudio.google.com).
+ * Live domains like https://al-furqan-app.vercel.app return false and run signInWithPopup directly.
  */
 export function isTemporaryPreviewHost(): boolean {
-  return !isOfficialHostingDomain();
+  if (typeof window === 'undefined') return false;
+  const host = (window.location.hostname || '').toLowerCase();
+  return (
+    host.startsWith('ais-dev-') ||
+    host.startsWith('ais-pre-') ||
+    host.endsWith('.run.app') ||
+    host.includes('aistudio.google.com')
+  );
 }
 
 // Initialize Firebase App
@@ -77,7 +71,8 @@ export interface GoogleAuthResult {
 }
 
 /**
- * Strict Popup-only Google Sign-In. Never attempts Firebase Auth from preview domains.
+ * Strict Popup-only Google Sign-In. Keeps login on the current live domain (https://al-furqan-app.vercel.app).
+ * Never attempts Firebase Auth from AI Studio temporary preview domains.
  */
 export async function signInWithGoogle(): Promise<GoogleAuthResult> {
   if (isTemporaryPreviewHost()) {
@@ -105,7 +100,12 @@ export async function signInWithGoogle(): Promise<GoogleAuthResult> {
       };
     }
     if (code === 'auth/unauthorized-domain') {
-      return { user: null };
+      const host = typeof window !== 'undefined' ? window.location.hostname : '';
+      return {
+        user: null,
+        errorCode: code,
+        errorMessage: `يرجى إضافة الدومين (${host}) في Firebase Console > Authentication > Settings > Authorized domains.`,
+      };
     }
     if (code === 'auth/operation-not-allowed') {
       return {

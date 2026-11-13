@@ -9,7 +9,7 @@ import {
   Smartphone,
 } from 'lucide-react';
 import { AcademyLogo } from './AcademyLogo';
-import { FIREBASE_HOSTING_URL } from '../firebase/config';
+import { OFFICIAL_LIVE_URL } from '../firebase/config';
 
 interface GoogleLoginScreenProps {
   onGoogleLogin: () => void;
@@ -77,12 +77,12 @@ export const GoogleLoginScreen: React.FC<GoogleLoginScreenProps> = ({
         )}
 
         {/* Primary Google Sign-In Action:
-            - On preview domains (ais-dev / ais-pre / etc.): opens the official fixed domain directly (never runs auth locally).
-            - On the official domain (al-furqan-e11b7.web.app): triggers Popup Google Sign-In directly. */}
+            - On AI Studio preview domains (ais-dev / ais-pre): opens the official Vercel live domain directly.
+            - On the live domain (https://al-furqan-app.vercel.app): triggers Popup Google Sign-In directly and stays on that domain. */}
         {isTemporaryHost ? (
           <div className="space-y-2">
             <a
-              href={FIREBASE_HOSTING_URL}
+              href={OFFICIAL_LIVE_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-[#07241B] font-extrabold text-sm sm:text-base shadow-[0_6px_25px_rgba(255,255,255,0.2)] cursor-pointer transition active:scale-95"
@@ -111,7 +111,7 @@ export const GoogleLoginScreen: React.FC<GoogleLoginScreenProps> = ({
             <p className="text-[11px] text-[#F3E5AB]/90 font-semibold">
               يفتح الدخول مباشرة على الدومين الرسمي:{' '}
               <span dir="ltr" className="underline">
-                al-furqan-e11b7.web.app
+                al-furqan-app.vercel.app
               </span>
             </p>
           </div>

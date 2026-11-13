@@ -1,10 +1,10 @@
 {
-  "id": "https://al-furqan-e11b7.web.app/",
+  "id": "https://al-furqan-app.vercel.app/",
   "name": "الأكاديمية",
   "short_name": "الأكاديمية",
   "description": "الأكاديمية - نظام الإدارة والمتابعة الشامل لتحفيظ القرآن الكريم",
-  "start_url": "https://al-furqan-e11b7.web.app/",
-  "scope": "https://al-furqan-e11b7.web.app/",
+  "start_url": "https://al-furqan-app.vercel.app/",
+  "scope": "https://al-furqan-app.vercel.app/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0B3D2E",
@@ -13,19 +13,19 @@
   "lang": "ar",
   "icons": [
     {
-      "src": "https://al-furqan-e11b7.web.app/icon-192.png",
+      "src": "https://al-furqan-app.vercel.app/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://al-furqan-e11b7.web.app/icon-512.png",
+      "src": "https://al-furqan-app.vercel.app/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://al-furqan-e11b7.web.app/pwa-maskable-512x512.png",
+      "src": "https://al-furqan-app.vercel.app/pwa-maskable-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
